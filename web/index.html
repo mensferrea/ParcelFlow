@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParcelFlow — Корпоративная логистическая платформа</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fedex-purple: #4D148C;
+      --fedex-purple-dark: #360866;
+      --fedex-orange: #FF6600;
+      --fedex-orange-hover: #E05500;
+      --bg: #F4F5F8;
+      --surface: #FFFFFF;
+      --border: #DDE1E8;
+      --border-focus: #4D148C;
+      --text-main: #1E232E;
+      --text-muted: #5E6778;
+      --text-light: #8E98A8;
+      --status-green: #008A38;
+      --status-green-bg: #EAF8EE;
+      --status-blue: #0066CC;
+      --status-blue-bg: #EDF5FF;
+      --status-amber: #D97706;
+      --status-amber-bg: #FEF3C7;
+      --status-red: #D92D20;
+      --status-red-bg: #FEE4E2;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); line-height: 1.45; }
+
+    /* Top FedEx Style Corporate Header */
+    .top-nav {
+      background-color: var(--fedex-purple);
+      color: #FFFFFF;
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo-text {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1.2px;
+      color: #FFFFFF;
+    }
+    .brand-logo-text span {
+      color: var(--fedex-orange);
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .role-badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 4px;
+      background: #FFFFFF;
+      color: var(--fedex-purple);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .role-badge.operator {
+      background: var(--fedex-orange);
+      color: #FFFFFF;
+    }
+
+    .btn-toggle-role {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #FFFFFF;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-toggle-role:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #FFFFFF;
+    }
+
+    /* Subheader & Quick Tracking Bar */
+    .sub-bar {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .track-search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 540px;
+    }
+
+    .track-search-box input {
+      flex: 1;
+      height: 42px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .track-search-box input:focus {
+      border-color: var(--fedex-purple);
+      box-shadow: 0 0 0 2px rgba(77, 20, 140, 0.15);
+    }
+
+    .btn-fedex-orange {
+      background-color: var(--fedex-orange);
+      color: #FFFFFF;
+      border: none;
+      height: 42px;
+      padding: 0 20px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-fedex-orange:hover {
+      background-color: var(--fedex-orange-hover);
+    }
+
+    .metrics-pills {
+      display: flex;
+      gap: 20px;
+    }
+
+    .metric-pill {
+      display: flex;
+      flex-direction: column;
+    }
+    .metric-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .metric-val {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    /* Main Container */
+    .main-layout {
+      max-width: 1440px;
+      margin: 28px auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* Solid Enterprise Form Card */
+    .panel-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .panel-header {
+      background: #FAFAFC;
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-header h2 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .panel-body {
+      padding: 20px;
+    }
+
+    .form-section-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--fedex-purple);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid var(--fedex-purple);
+      display: inline-block;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      height: 38px;
+      padding: 0 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-main);
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      outline: none;
+      transition: border 0.15s;
+    }
+    input:focus, select:focus {
+      border-color: var(--fedex-purple);
+      box-shadow: 0 0 0 2px rgba(77, 20, 140, 0.12);
+    }
+
+    .rate-summary-box {
+      background: #F8F6FD;
+      border: 1px solid #E4DAF5;
+      border-radius: 4px;
+      padding: 14px;
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+    .rate-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .rate-summary-price {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--fedex-purple);
+    }
+
+    /* Shipments List */
+    .shipments-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .shipment-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--fedex-purple);
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      padding: 20px;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .shipment-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .shipment-card.delivered {
+      border-left-color: var(--status-green);
+    }
+    .shipment-card.transit {
+      border-left-color: var(--fedex-orange);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #EDF0F4;
+    }
+
+    .tracking-code-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tracking-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--fedex-purple);
+      letter-spacing: 0.5px;
+    }
+    .copy-btn {
+      background: #F1F4F9;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .copy-btn:hover {
+      background: #E2E8F0;
+      color: var(--text-main);
+    }
+
+    /* Status Badges */
+    .status-badge {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .status-CREATED { background: #EDF0F5; color: #4B5565; }
+    .status-WAITING_FOR_PAYMENT { background: var(--status-amber-bg); color: var(--status-amber); }
+    .status-PAID { background: var(--status-blue-bg); color: var(--status-blue); }
+    .status-ACCEPTED { background: #F3EEFB; color: var(--fedex-purple); }
+    .status-IN_TRANSIT { background: #FFF4ED; color: var(--fedex-orange); }
+    .status-OUT_FOR_DELIVERY { background: #FFFBEB; color: #B45309; }
+    .status-DELIVERED { background: var(--status-green-bg); color: var(--status-green); }
+    .status-CANCELLED { background: var(--status-red-bg); color: var(--status-red); }
+    .status-PAYMENT_FAILED { background: var(--status-red-bg); color: var(--status-red); }
+
+    /* FedEx Delivery Step Progress Bar */
+    .stepper {
+      display: flex;
+      margin: 16px 0 18px 0;
+      position: relative;
+    }
+    .stepper-step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+    .stepper-step::before {
+      content: '';
+      position: absolute;
+      top: 11px;
+      left: -50%;
+      right: 50%;
+      height: 4px;
+      background: #E2E8F0;
+      z-index: 1;
+    }
+    .stepper-step:first-child::before {
+      display: none;
+    }
+    .stepper-step.active::before {
+      background: var(--fedex-purple);
+    }
+    .stepper-step.completed::before {
+      background: var(--status-green);
+    }
+    .step-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid #CBD5E1;
+      margin: 0 auto 6px auto;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .stepper-step.active .step-dot {
+      border-color: var(--fedex-purple);
+      background: var(--fedex-purple);
+      color: #FFFFFF;
+    }
+    .stepper-step.completed .step-dot {
+      border-color: var(--status-green);
+      background: var(--status-green);
+      color: #FFFFFF;
+    }
+    .step-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .stepper-step.active .step-title {
+      color: var(--fedex-purple);
+      font-weight: 800;
+    }
+
+    /* Route & Package Details Table */
+    .details-table {
+      width: 100%;
+      margin-bottom: 16px;
+      font-size: 13px;
+      border-collapse: collapse;
+    }
+    .details-table td {
+      padding: 6px 0;
+      vertical-align: top;
+    }
+    .details-table td.label {
+      width: 110px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .details-table td.val {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* Actions Bar */
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 14px;
+      border-top: 1px solid #EDF0F4;
+    }
+
+    .btn-action {
+      background: var(--fedex-purple);
+      color: #FFFFFF;
+      border: none;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-action:hover {
+      background: var(--fedex-purple-dark);
+    }
+    .btn-action.success {
+      background: var(--status-green);
+    }
+    .btn-action.success:hover {
+      background: #00732E;
+    }
+    .btn-action.danger {
+      background: #FFFFFF;
+      color: var(--status-red);
+      border: 1px solid #FDA29B;
+    }
+    .btn-action.danger:hover {
+      background: var(--status-red-bg);
+    }
+
+    /* Audit / Event History Details */
+    .audit-toggle {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--fedex-purple);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 14px;
+      background: none;
+      border: none;
+    }
+    .audit-list {
+      margin-top: 12px;
+      border-left: 2px solid #E2E8F0;
+      padding-left: 14px;
+      display: none;
+    }
+    .audit-list.show {
+      display: block;
+    }
+    .audit-item {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .audit-item b {
+      color: var(--text-main);
+    }
+    .audit-tag {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: #F1F4F9;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    .empty-state {
+      padding: 48px 24px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .empty-state svg {
+      margin-bottom: 12px;
+      stroke: #94A3B8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top FedEx Style Header -->
+  <header class="top-nav">
+    <a href="/" class="brand">
+      <div class="brand-logo-text">Parcel<span>Flow</span></div>
+      <div class="brand-tag">Express Logistics</div>
+    </a>
+
+    <div class="nav-actions">
+      <div class="role-badge" id="roleBadge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="7" r="5"/><path d="M12 14c-5 0-9 3-9 7h18c0-4-4-7-9-7z"/></svg>
+        <span id="roleText">РОЛЬ: КЛИЕНТ</span>
+      </div>
+      <button class="btn-toggle-role" onclick="toggleRole()">Сменить роль (Клиент / Оператор)</button>
+    </div>
+  </header>
+
+  <!-- Sub-bar: Search & Key Counters -->
+  <section class="sub-bar">
+    <div class="track-search-box">
+      <input type="text" id="quickTrackInput" placeholder="Введите номер накладной (например, PF-XXXX-XXXXXX)..." onkeyup="filterByTracking(this.value)">
+      <button class="btn-fedex-orange" onclick="filterByTracking(document.getElementById('quickTrackInput').value)">Найти</button>
+    </div>
+
+    <div class="metrics-pills">
+      <div class="metric-pill">
+        <span class="metric-label">Всего отправлений</span>
+        <span class="metric-val" id="totalShipmentsCount">0</span>
+      </div>
+      <div class="metric-pill">
+        <span class="metric-label">В пути</span>
+        <span class="metric-val" id="inTransitCount" style="color: var(--fedex-orange);">0</span>
+      </div>
+      <div class="metric-pill">
+        <span class="metric-label">Доставлено</span>
+        <span class="metric-val" id="deliveredCount" style="color: var(--status-green);">0</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="main-layout">
+    <!-- Left: Shipment Creation Form -->
+    <section class="panel-card">
+      <div class="panel-header">
+        <h2>Оформление отправления</h2>
+        <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">ШАГ 1 ИЗ 2</span>
+      </div>
+      <div class="panel-body">
+        <div class="form-section-title">1. Маршрут перевозки</div>
+        <div class="form-group">
+          <label>Города (Пункт отправления и назначения):</label>
+          <div class="form-row">
+            <input type="text" id="originCity" value="Ufa" placeholder="Откуда (Город)">
+            <input type="text" id="destCity" value="Kazan" placeholder="Куда (Город)">
+          </div>
+        </div>
+
+        <div class="form-section-title">2. Участники доставки</div>
+        <div class="form-group">
+          <label>Отправитель (ФИО и телефон):</label>
+          <input type="text" id="senderName" value="Айдар Каримов (+7 917 111-22-33)">
+        </div>
+        <div class="form-group">
+          <label>Адрес забора посылки:</label>
+          <input type="text" id="senderAddress" value="г. Уфа, ул. Ленина, д. 10, оф. 4">
+        </div>
+
+        <div class="form-group">
+          <label>Получатель (ФИО и телефон):</label>
+          <input type="text" id="recipientName" value="Марат Сафин (+7 987 444-55-66)">
+        </div>
+        <div class="form-group">
+          <label>Адрес вручения получателю:</label>
+          <input type="text" id="recipientAddress" value="г. Казань, ул. Баумана, д. 45">
+        </div>
+
+        <div class="form-section-title">3. Параметры груза и тариф</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Вес (кг):</label>
+            <input type="number" id="weightKg" value="3.5" step="0.5">
+          </div>
+          <div class="form-group">
+            <label>Класс сервиса:</label>
+            <select id="deliveryType">
+              <option value="EXPRESS">Express Priority (1-2 дня)</option>
+              <option value="STANDARD">Standard Ground (3-5 дней)</option>
+              <option value="FREIGHT">Heavy Freight (Крупногабарит)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Габариты коробки (Длина × Ширина × Высота, см):</label>
+          <div class="form-row-3">
+            <input type="number" id="lenCm" value="30" placeholder="Длина">
+            <input type="number" id="widCm" value="25" placeholder="Ширина">
+            <input type="number" id="hgtCm" value="20" placeholder="Высота">
+          </div>
+        </div>
+
+        <div class="rate-summary-box">
+          <div class="rate-summary-row">
+            <span>Расчетный тариф (gRPC Engine):</span>
+            <span class="rate-summary-price" id="calcPricePreview">~ 1,175.00 ₽</span>
+          </div>
+        </div>
+
+        <button class="btn-fedex-orange" style="width: 100%; height: 46px; font-size: 14px;" onclick="createShipment()">
+          Сформировать накладную и заказ
+        </button>
+      </div>
+    </section>
+
+    <!-- Right: Shipments Registry & State Machine Controls -->
+    <section class="panel-card">
+      <div class="panel-header">
+        <h2>Реестр и мониторинг отгрузок</h2>
+        <button class="btn-toggle-role" style="color: var(--text-main); border-color: var(--border); padding: 4px 10px;" onclick="loadShipments()">
+          Обновить статус
+        </button>
+      </div>
+      <div class="panel-body">
+        <div class="shipments-container" id="shipmentsContainer">
+          <div class="empty-state">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <p>Загрузка отправлений...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let currentRole = 'CUSTOMER';
+    let customerToken = '';
+    let operatorToken = '';
+    let allShipments = [];
+
+    async function initAuth() {
+      try {
+        const resCust = await fetch('/api/v1/auth/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email: 'customer@parcelflow.com', password: 'customer123'})
+        });
+        const custData = await resCust.json();
+        customerToken = custData.token;
+
+        const resOp = await fetch('/api/v1/auth/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email: 'operator@parcelflow.com', password: 'operator123'})
+        });
+        const opData = await resOp.json();
+        operatorToken = opData.token;
+
+        loadShipments();
+        setInterval(loadShipments, 4000);
+      } catch (e) {
+        console.error("Auth init error:", e);
+      }
+    }
+
+    function toggleRole() {
+      const badge = document.getElementById('roleBadge');
+      const text = document.getElementById('roleText');
+      if (currentRole === 'CUSTOMER') {
+        currentRole = 'OPERATOR';
+        text.innerText = 'РОЛЬ: ОПЕРАТОР ХАБА';
+        badge.className = 'role-badge operator';
+      } else {
+        currentRole = 'CUSTOMER';
+        text.innerText = 'РОЛЬ: КЛИЕНТ';
+        badge.className = 'role-badge';
+      }
+      loadShipments();
+    }
+
+    function getActiveToken() {
+      return currentRole === 'OPERATOR' ? operatorToken : customerToken;
+    }
+
+    async function createShipment() {
+      const payload = {
+        sender_name: document.getElementById('senderName').value,
+        sender_phone: "+79171112233",
+        sender_address: document.getElementById('senderAddress').value,
+        recipient_name: document.getElementById('recipientName').value,
+        recipient_phone: "+79874445566",
+        recipient_address: document.getElementById('recipientAddress').value,
+        origin_city: document.getElementById('originCity').value,
+        destination_city: document.getElementById('destCity').value,
+        weight_kg: parseFloat(document.getElementById('weightKg').value),
+        length_cm: parseFloat(document.getElementById('lenCm').value),
+        width_cm: parseFloat(document.getElementById('widCm').value),
+        height_cm: parseFloat(document.getElementById('hgtCm').value),
+        delivery_type: document.getElementById('deliveryType').value
+      };
+
+      const res = await fetch('/api/v1/shipments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + customerToken,
+          'X-Idempotency-Key': 'shipment-order-' + Date.now()
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        loadShipments();
+      } else {
+        const err = await res.json();
+        alert('Ошибка оформления накладной: ' + (err.error || 'Проверьте данные'));
+      }
+    }
+
+    async function payShipment(id) {
+      const res = await fetch(`/api/v1/shipments/${id}/payments`, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + customerToken,
+          'X-Idempotency-Key': 'pay-order-' + Date.now()
+        }
+      });
+      const data = await res.json();
+      if (data.external_payment_id) {
+        await fetch(`http://localhost:8082/payments/${data.external_payment_id}/confirm`, {
+          method: 'POST'
+        });
+        setTimeout(loadShipments, 400);
+      }
+    }
+
+    async function updateStatus(id, nextStatus, description) {
+      const res = await fetch(`/api/v1/shipments/${id}/tracking-events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + operatorToken
+        },
+        body: JSON.stringify({status: nextStatus, description: description})
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert('Ошибка перехода статуса: ' + err.error);
+      }
+      loadShipments();
+    }
+
+    async function cancelShipment(id) {
+      const res = await fetch(`/api/v1/shipments/${id}/cancel`, {
+        method: 'POST',
+        headers: {'Authorization': 'Bearer ' + getActiveToken()}
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert('Невозможно отменить отправление в текущем статусе');
+      }
+      loadShipments();
+    }
+
+    function toggleAudit(id) {
+      const el = document.getElementById('audit-' + id);
+      if (el) el.classList.toggle('show');
+    }
+
+    function filterByTracking(query) {
+      const q = (query || '').trim().toLowerCase();
+      if (!q) {
+        renderShipments(allShipments);
+        return;
+      }
+      const filtered = allShipments.filter(s => 
+        s.tracking_number.toLowerCase().includes(q) ||
+        s.origin_city.toLowerCase().includes(q) ||
+        s.destination_city.toLowerCase().includes(q)
+      );
+      renderShipments(filtered);
+    }
+
+    async function loadShipments() {
+      const token = getActiveToken();
+      if (!token) return;
+
+      const url = currentRole === 'OPERATOR' 
+        ? '/api/v1/operator/shipments?page_size=30'
+        : '/api/v1/shipments?page_size=30';
+
+      const res = await fetch(url, {
+        headers: {'Authorization': 'Bearer ' + token}
+      });
+      if (!res.ok) return;
+
+      const data = await res.json();
+      allShipments = data.items || [];
+
+      // Update counters
+      document.getElementById('totalShipmentsCount').innerText = allShipments.length;
+      document.getElementById('inTransitCount').innerText = allShipments.filter(s => s.status === 'IN_TRANSIT' || s.status === 'OUT_FOR_DELIVERY').length;
+      document.getElementById('deliveredCount').innerText = allShipments.filter(s => s.status === 'DELIVERED').length;
+
+      const filterVal = document.getElementById('quickTrackInput').value;
+      if (filterVal) {
+        filterByTracking(filterVal);
+      } else {
+        renderShipments(allShipments);
+      }
+    }
+
+    async function renderShipments(items) {
+      const container = document.getElementById('shipmentsContainer');
+      if (!items || items.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+            <p>Нет зарегистрированных отправлений. Заполните форму слева для создания накладной.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const token = getActiveToken();
+      let html = '';
+
+      for (const s of items) {
+        const eventsRes = await fetch(`/api/v1/shipments/${s.id}/events`, {
+          headers: {'Authorization': 'Bearer ' + token}
+        });
+        const events = eventsRes.ok ? await eventsRes.json() : [];
+
+        // Determine step index for FedEx progress bar
+        const stages = ['CREATED', 'PAID', 'ACCEPTED', 'IN_TRANSIT', 'OUT_FOR_DELIVERY', 'DELIVERED'];
+        let activeIdx = stages.indexOf(s.status);
+        if (s.status === 'WAITING_FOR_PAYMENT') activeIdx = 0;
+
+        let cardClass = 'shipment-card';
+        if (s.status === 'DELIVERED') cardClass += ' delivered';
+        if (s.status === 'IN_TRANSIT' || s.status === 'OUT_FOR_DELIVERY') cardClass += ' transit';
+
+        html += `
+          <div class="${cardClass}">
+            <div class="card-top">
+              <div class="tracking-code-block">
+                <span class="tracking-num">${s.tracking_number}</span>
+                <button class="copy-btn" onclick="navigator.clipboard.writeText('${s.tracking_number}')">Копировать</button>
+              </div>
+              <span class="status-badge status-${s.status}">${s.status.replace(/_/g, ' ')}</span>
+            </div>
+
+            <!-- Visual Stepper Progress Bar -->
+            <div class="stepper">
+              <div class="stepper-step ${activeIdx >= 0 ? (activeIdx > 0 ? 'completed' : 'active') : ''}">
+                <div class="step-dot">${activeIdx > 0 ? '✓' : '1'}</div>
+                <div class="step-title">Создан</div>
+              </div>
+              <div class="stepper-step ${activeIdx >= 1 ? (activeIdx > 1 ? 'completed' : 'active') : ''}">
+                <div class="step-dot">${activeIdx > 1 ? '✓' : '2'}</div>
+                <div class="step-title">Оплачен</div>
+              </div>
+              <div class="stepper-step ${activeIdx >= 2 ? (activeIdx > 2 ? 'completed' : 'active') : ''}">
+                <div class="step-dot">${activeIdx > 2 ? '✓' : '3'}</div>
+                <div class="step-title">Принят</div>
+              </div>
+              <div class="stepper-step ${activeIdx >= 3 ? (activeIdx > 3 ? 'completed' : 'active') : ''}">
+                <div class="step-dot">${activeIdx > 3 ? '✓' : '4'}</div>
+                <div class="step-title">В пути</div>
+              </div>
+              <div class="stepper-step ${activeIdx >= 4 ? (activeIdx > 4 ? 'completed' : 'active') : ''}">
+                <div class="step-dot">${activeIdx > 4 ? '✓' : '5'}</div>
+                <div class="step-title">Курьер</div>
+              </div>
+              <div class="stepper-step ${activeIdx >= 5 ? 'completed' : ''}">
+                <div class="step-dot">${activeIdx >= 5 ? '✓' : '6'}</div>
+                <div class="step-title">Вручен</div>
+              </div>
+            </div>
+
+            <!-- Key Shipment Metrics -->
+            <table class="details-table">
+              <tr>
+                <td class="label">Маршрут:</td>
+                <td class="val">📍 ${s.origin_city} &rarr; ${s.destination_city}</td>
+                <td class="label">Стоимость:</td>
+                <td class="val">💰 ${(s.price_cents/100).toFixed(2)} ${s.currency} (${s.delivery_type})</td>
+              </tr>
+              <tr>
+                <td class="label">Отправитель:</td>
+                <td class="val">${s.sender_name}</td>
+                <td class="label">Получатель:</td>
+                <td class="val">${s.recipient_name}</td>
+              </tr>
+              <tr>
+                <td class="label">Параметры:</td>
+                <td class="val">${s.weight_kg} кг (${s.length_cm} × ${s.width_cm} × ${s.height_cm} см)</td>
+                <td class="label">Создано:</td>
+                <td class="val">${new Date(s.created_at).toLocaleString()}</td>
+              </tr>
+            </table>
+
+            <!-- Context Actions -->
+            <div class="card-actions">
+              ${s.status === 'CREATED' ? `
+                <button class="btn-action" style="background: var(--fedex-orange);" onclick="payShipment('${s.id}')">💳 Оплатить доставку</button>
+                <button class="btn-action danger" onclick="cancelShipment('${s.id}')">Отменить</button>
+              ` : ''}
+
+              ${currentRole === 'OPERATOR' && s.status === 'PAID' ? `
+                <button class="btn-action" onclick="updateStatus('${s.id}', 'ACCEPTED', 'Принято на складе сортировки')">Принять на склад (ACCEPTED)</button>
+              ` : ''}
+
+              ${currentRole === 'OPERATOR' && s.status === 'ACCEPTED' ? `
+                <button class="btn-action" style="background: var(--fedex-orange);" onclick="updateStatus('${s.id}', 'IN_TRANSIT', 'Отправлено магистральным рейсом')">Отправить в рейс (IN_TRANSIT)</button>
+              ` : ''}
+
+              ${currentRole === 'OPERATOR' && s.status === 'IN_TRANSIT' ? `
+                <button class="btn-action" onclick="updateStatus('${s.id}', 'OUT_FOR_DELIVERY', 'Передано курьеру доставки')">Передать курьеру (OUT_FOR_DELIVERY)</button>
+              ` : ''}
+
+              ${currentRole === 'OPERATOR' && s.status === 'OUT_FOR_DELIVERY' ? `
+                <button class="btn-action success" onclick="updateStatus('${s.id}', 'DELIVERED', 'Успешно вручено адресату')">Вручить получателю (DELIVERED)</button>
+              ` : ''}
+
+              ${(s.status === 'WAITING_FOR_PAYMENT' || s.status === 'PAYMENT_FAILED') ? `
+                <button class="btn-action danger" onclick="cancelShipment('${s.id}')">Отменить отправление</button>
+              ` : ''}
+            </div>
+
+            <!-- Audit trail history -->
+            <button class="audit-toggle" onclick="toggleAudit('${s.id}')">
+              История перемещений и сканирований (${events.length}) ▾
+            </button>
+            <div class="audit-list" id="audit-${s.id}">
+              ${events.map(e => `
+                <div class="audit-item">
+                  &bull; <b>${e.new_status}</b> (${new Date(e.created_at).toLocaleTimeString()}) &mdash; ${e.description}
+                  <span class="audit-tag">${e.source}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    window.onload = initAuth;
+  </script>
+</body>
+</html>

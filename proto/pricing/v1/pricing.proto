@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package pricing.v1;
+
+option go_package = "ParcelFlow/proto/pricing/v1;pricingv1";
+
+service PricingService {
+  rpc CalculateRate(CalculateRateRequest) returns (CalculateRateResponse);
+  rpc GetTariffs(GetTariffsRequest) returns (GetTariffsResponse);
+}
+
+message CalculateRateRequest {
+  string origin_city = 1;
+  string destination_city = 2;
+  double weight_kg = 3;
+  double length_cm = 4;
+  double width_cm = 5;
+  double height_cm = 6;
+  string delivery_type = 7;
+}
+
+message CalculateRateResponse {
+  int64 price_cents = 1;
+  string currency = 2;
+  double distance_km = 3;
+  int32 estimated_days = 4;
+  string delivery_type = 5;
+}
+
+message GetTariffsRequest {}
+
+message TariffInfo {
+  string delivery_type = 1;
+  double base_rate_cents = 2;
+  double per_kg_cents = 3;
+  double per_km_cents = 4;
+  int32 min_days = 5;
+  int32 max_days = 6;
+}
+
+message GetTariffsResponse {
+  repeated TariffInfo tariffs = 1;
+}

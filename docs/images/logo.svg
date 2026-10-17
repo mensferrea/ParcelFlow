@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 140" width="100%" height="100%">
+  <defs>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4D148C" />
+      <stop offset="100%" stop-color="#360866" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6600" />
+      <stop offset="100%" stop-color="#E05500" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Background container -->
+  <rect width="680" height="140" rx="16" fill="#FFFFFF" filter="url(#shadow)"/>
+  
+  <!-- Left logistics box & arrow badge -->
+  <g transform="translate(36, 25)">
+    <!-- Main cargo container box -->
+    <rect x="0" y="8" width="76" height="76" rx="10" fill="url(#purpleGrad)" />
+    <!-- Orange accent top flap / arrow -->
+    <path d="M 12 8 L 64 8 L 54 28 L 22 28 Z" fill="url(#orangeGrad)" opacity="0.9" />
+    <!-- Dynamic logistics arrow symbol -->
+    <path d="M 24 50 L 46 50 L 46 40 L 62 54 L 46 68 L 46 58 L 24 58 Z" fill="#FFFFFF" />
+  </g>
+
+  <!-- Typography: Parcel (FedEx deep purple) + Flow (FedEx express orange) -->
+  <text x="135" y="84" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Montserrat, Arial, sans-serif" font-size="64" font-weight="900" letter-spacing="-2px" fill="#4D148C">Parcel</text>
+  <text x="350" y="84" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Montserrat, Arial, sans-serif" font-size="64" font-weight="900" letter-spacing="-1.5px" fill="#FF6600">Flow</text>
+
+  <!-- Subtitle badge -->
+  <rect x="500" y="44" width="144" height="26" rx="4" fill="#F3F0FA" />
+  <text x="572" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif" font-size="11" font-weight="800" letter-spacing="1.5px" fill="#4D148C" text-anchor="middle">ENTERPRISE</text>
+
+  <text x="138" y="108" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" letter-spacing="0.5px" fill="#6B7280">Logistics &amp; Shipment Orchestration Platform</text>
+</svg>

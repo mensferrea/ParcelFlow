@@ -1,0 +1,71 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: parcelflow-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: parcelflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d parcelflow"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: parcelflow-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+  nats:
+    image: nats:2.10-alpine
+    container_name: parcelflow-nats
+    command: ["-js", "-m", "8222"]
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: parcelflow-app
+    environment:
+      PORT: 8080
+      PRICING_PORT: 50051
+      PAYMENT_SIMULATOR_PORT: 8082
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgrespassword
+      DB_NAME: parcelflow
+      DB_SSLMODE: disable
+      REDIS_ADDR: redis:6379
+      NATS_URL: nats://nats:4222
+      APP_BASE_URL: http://localhost:8080
+      JWT_SECRET: super-secret-key-parcelflow-2026
+      MIGRATION_FILE: migrations/000001_init_schema.up.sql
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+      - "8082:8082"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nats:
+        condition: service_started
+
+volumes:
+  pgdata:
